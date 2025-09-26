@@ -63,7 +63,7 @@ const SEOHelmet: React.FC = () => {
     };
     
     let ldScript = document.querySelector('script[type="application/ld+json"]');
-    if (!ldScript) {
+    if (!(ldScript instanceof HTMLScriptElement)) {
       ldScript = document.createElement('script');
       ldScript.type = 'application/ld+json';
       document.head.appendChild(ldScript);
