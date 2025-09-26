@@ -5,7 +5,7 @@ const SEOHelmet: React.FC = () => {
   const location = useLocation();
   
   React.useEffect(() => {
-    const baseTitle = "Alex Johnson - Mid-level Software Developer";
+    const baseTitle = "Rorisang Petja - Mid-level Software Developer";
     const baseDescription = "Experienced software developer specializing in React, Node.js, and full-stack development. Available for hire.";
     
     let title = baseTitle;
@@ -13,16 +13,16 @@ const SEOHelmet: React.FC = () => {
     
     switch (location.pathname) {
       case '/projects':
-        title = "Portfolio Projects - Alex Johnson | React Developer";
+        title = "Portfolio Projects - Rorisang Petja | React Developer";
         description = "View my software development projects including React, Node.js, and full-stack applications.";
         break;
       case '/resume':
-        title = "Resume - Alex Johnson | Software Developer CV";
-        description = "Download or view Alex Johnson's software developer resume and CV with experience in React, Node.js, SQL.";
+        title = "Resume - Rorisang Petja | Software Developer CV";
+        description = "Download or view Rorisang Petja's software developer resume and CV with experience in React, Node.js, SQL.";
         break;
       case '/contact':
-        title = "Contact - Alex Johnson | Hire Software Developer";
-        description = "Get in touch with Alex Johnson for software development opportunities. Available for full-time and contract work.";
+        title = "Contact - Rorisang Petja | Hire Software Developer";
+        description = "Get in touch with Rorisang Petja for software development opportunities. Available for full-time and contract work.";
         break;
     }
     
@@ -43,7 +43,7 @@ const SEOHelmet: React.FC = () => {
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "Person",
-      "name": "Alex Johnson",
+      "name": "Rorisang Petja",
       "jobTitle": "Mid-level Software Developer",
       "description": description,
       "url": window.location.origin,
