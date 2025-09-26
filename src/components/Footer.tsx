@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
                 <Mail className="h-5 w-5" />
               </a>
               <a
-                href="https://linkedin.com/in/rorisangpetja"
+                href="https://www.linkedin.com/in/rorisang-petja-4b663931a/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
                 <Linkedin className="h-5 w-5" />
               </a>
               <a
-                href="https://github.com/rohreee"
+                href="https://github.com/rohree"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"

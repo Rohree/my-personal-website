@@ -131,7 +131,7 @@ const Contact: React.FC = () => {
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Connect With Me</h3>
               <div className="flex space-x-4">
                 <a
-                  href="https://linkedin.com/in/rorisangpetja"
+                  href="https://www.linkedin.com/in/rorisang-petja-4b663931a/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-colors"
@@ -139,7 +139,7 @@ const Contact: React.FC = () => {
                   <Linkedin className="h-6 w-6" />
                 </a>
                 <a
-                  href="https://github.com/rohreee"
+                  href="https://github.com/rohree"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-gray-800 text-white p-3 rounded-lg hover:bg-gray-900 transition-colors"
