@@ -10,14 +10,25 @@ const Resume: React.FC = () => {
     const resumeElement = document.querySelector("#resume-content") as HTMLElement | null; // target the resume wrapper
     if (!resumeElement) return;
 
-    const canvas = await html2canvas(resumeElement);
+    const canvas = await html2canvas(resumeElement, { scale: 2 });
     const imgData = canvas.toDataURL("image/png");
-
     const pdf = new jsPDF("p", "mm", "a4");
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    let heightLeft = pdfHeight;
+    let position = 0;
+
+    pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
+    heightLeft -= pdf.internal.pageSize.getHeight();
+
+    while (heightLeft > 0) {
+      position = heightLeft - pdfHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
+      heightLeft -= pdf.internal.pageSize.getHeight();
+    }
+
     pdf.save("Rorisang_Petja_Resume.pdf");
   };
 
@@ -72,9 +83,7 @@ const Resume: React.FC = () => {
             <p className="text-gray-700 leading-relaxed">
               Passionate and results-driven Mid-level Software Developer with 4+ years of experience 
               in full-stack web development. Expertise in React, Node.js, and modern JavaScript 
-              frameworks with a strong background in building scalable web applications. Proven track 
-              record of delivering high-quality software solutions in fast-paced environments across 
-              fintech, e-commerce, and mining industries.
+              frameworks with a strong background in building scalable web applications.
             </p>
           </section>
 
@@ -167,7 +176,7 @@ const Resume: React.FC = () => {
             </h3>
             <div className="space-y-2">
               <div className="flex flex-col md:flex-row md:justify-between">
-                <p className="text-gray-900 font-medium">CodeSpace Certification of Complition</p>
+                <p className="text-gray-900 font-medium">CodeSpace Certification of Completion</p>
                 <p className="text-gray-500">2024</p>
               </div>
               <div className="flex flex-col md:flex-row md:justify-between">
