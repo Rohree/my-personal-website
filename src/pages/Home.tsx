@@ -87,7 +87,7 @@ const Home: React.FC = () => {
                   <span>Download Resume</span>
                 </Link>
                 <a
-                  href="https://github.com/rorisangpetja"
+                  href="https://github.com/rohree"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="border-2 border-gray-800 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 hover:text-white transition-colors flex items-center justify-center space-x-2"
