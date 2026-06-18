@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail, Linkedin, Github, Twitter } from 'lucide-react';
+import profilePic from '../assets/profile-pic.png';
 
 const SOCIAL = [
   { href: 'mailto:rorisang@hellorory.dev',                         icon: <Mail     className="w-4 h-4" />, label: 'Email'   },
@@ -15,9 +16,7 @@ const Footer: React.FC = () => (
 
         {/* identity */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-g-blue flex items-center justify-center text-white text-xs font-bold shrink-0">
-            RP
-          </div>
+          <img src={profilePic} alt="Rorisang Petja" className="w-9 h-9 rounded-xl object-cover shrink-0" />
           <div>
             <p className="font-semibold text-gray-900 dark:text-white text-sm leading-tight">
               Rorisang Petja

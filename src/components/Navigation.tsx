@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Sun, Moon } from 'lucide-react';
+import profilePic from '../assets/profile-pic.png';
 
 const NAV_LINKS = [
   { label: 'About',      id: 'about'      },
@@ -73,9 +74,7 @@ const Navigation: React.FC = () => {
             className="flex items-center gap-3 group"
             aria-label="Rorisang Petja — home"
           >
-            <div className="w-9 h-9 rounded-xl bg-g-blue flex items-center justify-center text-white text-xs font-bold shrink-0 shadow-sm">
-              RP
-            </div>
+            <img src={profilePic} alt="Rorisang Petja" className="w-9 h-9 rounded-xl object-cover shrink-0 shadow-sm" />
             <span className="hidden sm:block font-semibold text-sm text-gray-900 dark:text-white group-hover:text-g-blue dark:group-hover:text-blue-400 transition-colors">
               Rorisang Petja
             </span>
