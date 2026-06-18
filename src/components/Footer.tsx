@@ -1,97 +1,56 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Code, Mail, Linkedin, Github } from 'lucide-react';
+import { Mail, Linkedin, Github, Twitter } from 'lucide-react';
 
-const Footer: React.FC = () => {
-  return (
-    <footer className="bg-gray-900 text-white py-12">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div className="md:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
-              <Code className="h-8 w-8 text-blue-400" />
-              <span className="font-bold text-xl">Rorisang Petja</span>
-            </div>
-            <p className="text-gray-300 mb-4 max-w-md">
-              Mid-level Software Developer specializing in building scalable web applications 
-              with React, Node.js, and modern technologies.
+const SOCIAL = [
+  { href: 'mailto:rorisang@hellorory.dev',                         icon: <Mail     className="w-4 h-4" />, label: 'Email'   },
+  { href: 'https://www.linkedin.com/in/rorisang-petja-4b663931a/', icon: <Linkedin className="w-4 h-4" />, label: 'LinkedIn'},
+  { href: 'https://github.com/rohree',                              icon: <Github   className="w-4 h-4" />, label: 'GitHub'  },
+  { href: 'https://x.com',                                          icon: <Twitter  className="w-4 h-4" />, label: 'X'       },
+];
+
+const Footer: React.FC = () => (
+  <footer className="bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800 py-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+
+        {/* identity */}
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-g-blue flex items-center justify-center text-white text-xs font-bold shrink-0">
+            RP
+          </div>
+          <div>
+            <p className="font-semibold text-gray-900 dark:text-white text-sm leading-tight">
+              Rorisang Petja
             </p>
-            <div className="flex space-x-4">
-              <a
-                href="mailto:rorisang@hellorory.dev"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Mail className="h-5 w-5" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/rorisang-petja-4b663931a/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a
-                href="https://github.com/rohree"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Github className="h-5 w-5" />
-              </a>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/" className="text-gray-400 hover:text-white transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/projects" className="text-gray-400 hover:text-white transition-colors">
-                  Projects
-                </Link>
-              </li>
-              <li>
-                <Link to="/resume" className="text-gray-400 hover:text-white transition-colors">
-                  Resume
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Services</h3>
-            <ul className="space-y-2 text-gray-400">
-              <li>Full-Stack Development</li>
-              <li>React Applications</li>
-              <li>API Development</li>
-              <li>Database Design</li>
-              <li>Code Review</li>
-            </ul>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+              Founder · Tech Lead · Builder
+            </p>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Rorisang Petja. All rights reserved.</p>
-          <p className="mt-2 text-sm">
-            Built with React, TypeScript, and Tailwind CSS
-          </p>
+        {/* social icons */}
+        <div className="flex items-center gap-2">
+          {SOCIAL.map(s => (
+            <a
+              key={s.label}
+              href={s.href}
+              target={s.href.startsWith('http') ? '_blank' : undefined}
+              rel={s.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              aria-label={s.label}
+              className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
+            >
+              {s.icon}
+            </a>
+          ))}
         </div>
+
+        {/* copyright */}
+        <p className="text-xs text-gray-400 dark:text-gray-600">
+          © {new Date().getFullYear()} Rorisang Petja
+        </p>
       </div>
-    </footer>
-  );
-};
+    </div>
+  </footer>
+);
 
 export default Footer;

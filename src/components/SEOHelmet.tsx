@@ -3,75 +3,56 @@ import { useLocation } from 'react-router-dom';
 
 const SEOHelmet: React.FC = () => {
   const location = useLocation();
-  
+
   React.useEffect(() => {
-    const baseTitle = "Rorisang Petja - Mid-level Software Developer";
-    const baseDescription = "Experienced software developer specializing in React, Node.js, and full-stack development. Available for hire.";
-    
-    let title = baseTitle;
-    let description = baseDescription;
-    
-    switch (location.pathname) {
-      case '/projects':
-        title = "Portfolio Projects - Rorisang Petja | React Developer";
-        description = "View my software development projects including React, Node.js, and full-stack applications.";
-        break;
-      case '/resume':
-        title = "Resume - Rorisang Petja | Software Developer CV";
-        description = "Download or view Rorisang Petja's software developer resume and CV with experience in React, Node.js, SQL.";
-        break;
-      case '/contact':
-        title = "Contact - Rorisang Petja | Hire Software Developer";
-        description = "Get in touch with Rorisang Petja for software development opportunities. Available for full-time and contract work.";
-        break;
-    }
-    
-    document.title = title;
-    
-    // Update meta tags
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', description);
-    } else {
-      const meta = document.createElement('meta');
-      meta.name = 'description';
-      meta.content = description;
-      document.head.appendChild(meta);
-    }
-    
-    // Add structured data for SEO
-    const structuredData = {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Rorisang Petja",
-      "jobTitle": "Mid-level Software Developer",
-      "description": description,
-      "url": window.location.origin,
-      "sameAs": [
-        "https://github.com/alexjohnson",
-        "https://linkedin.com/in/alexjohnson"
-      ],
-      "knowsAbout": [
-        "JavaScript",
-        "React",
-        "Node.js",
-        "SQL",
-        "AWS",
-        "Docker",
-        "Full-Stack Development"
-      ]
+    const defaults = {
+      title: 'Rorisang Petja — Founder · Tech Lead · Builder',
+      description: 'Founder of Shobbable and Tech Lead at Yelah. I design, build, and launch digital products that help businesses grow.',
     };
-    
-    let ldScript = document.querySelector('script[type="application/ld+json"]');
-    if (!(ldScript instanceof HTMLScriptElement)) {
-      ldScript = document.createElement('script');
-      ldScript.type = 'application/ld+json';
-      document.head.appendChild(ldScript);
+
+    const routes: Record<string, { title: string; description: string }> = {
+      '/contact': {
+        title: 'Contact — Rorisang Petja',
+        description: "Let's build something together. Reach out to discuss startups, products, or engineering.",
+      },
+      '/resume': {
+        title: 'Resume — Rorisang Petja',
+        description: 'Resume and work history of Rorisang Petja — Founder, Tech Lead, and Product Engineer.',
+      },
+    };
+
+    const page = routes[location.pathname] ?? defaults;
+    document.title = page.title;
+
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute('content', page.description);
+
+    const structuredData = {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Rorisang Petja',
+      jobTitle: 'Founder & Tech Lead',
+      description: defaults.description,
+      url: window.location.origin,
+      sameAs: [
+        'https://github.com/rohree',
+        'https://www.linkedin.com/in/rorisang-petja-4b663931a/',
+      ],
+      knowsAbout: [
+        'React', 'TypeScript', 'Node.js', 'Firebase', 'AWS',
+        'Product Design', 'Startup Building', 'eCommerce',
+      ],
+    };
+
+    let ld = document.querySelector<HTMLScriptElement>('script[type="application/ld+json"]');
+    if (!ld) {
+      ld = document.createElement('script');
+      ld.type = 'application/ld+json';
+      document.head.appendChild(ld);
     }
-    ldScript.textContent = JSON.stringify(structuredData);
-    
+    ld.textContent = JSON.stringify(structuredData);
   }, [location]);
-  
+
   return null;
 };
 

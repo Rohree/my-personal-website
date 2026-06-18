@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, ExternalLink, Github, Calendar, User } from 'lucide-react';
-import ss1 from '../assets/ss1.png'
+import ss1 from '../assets/shobbable-dashboard.png'
 import ss2 from '../assets/ss2.png'
 import ss3 from '../assets/ss3.png'
 import pod from '../assets/podcast.png'

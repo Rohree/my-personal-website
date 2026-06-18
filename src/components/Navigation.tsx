@@ -1,79 +1,138 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Code } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, Sun, Moon } from 'lucide-react';
+
+const NAV_LINKS = [
+  { label: 'About',      id: 'about'      },
+  { label: 'Work',       id: 'work'        },
+  { label: 'Shobbable',  id: 'shobbable'  },
+  { label: 'Experience', id: 'experience' },
+  { label: 'Contact',    id: 'contact'    },
+];
 
 const Navigation: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open,     setOpen]     = useState(false);
+  const [dark,     setDark]     = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/projects', label: 'Projects' },
-    { path: '/resume', label: 'Resume' },
-    { path: '/contact', label: 'Contact' }
-  ];
+  /* initialise dark mode from storage / system pref */
+  useEffect(() => {
+    const stored = localStorage.getItem('theme');
+    const sys    = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = stored ? stored === 'dark' : sys;
+    setDark(isDark);
+    document.documentElement.classList.toggle('dark', isDark);
+  }, []);
 
-  const isActive = (path: string) => location.pathname === path;
+  /* track scroll to show nav background */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  /* close mobile menu on route change */
+  useEffect(() => { setOpen(false); }, [location]);
+
+  const toggleDark = () => {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle('dark', next);
+    localStorage.setItem('theme', next ? 'dark' : 'light');
+  };
+
+  const goToSection = (id: string) => {
+    setOpen(false);
+    if (location.pathname === '/') {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/');
+      /* wait for home page to mount before scrolling */
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      }, 200);
+    }
+  };
 
   return (
-    <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-white shadow-2xl rounded-full px-6 py-4 z-50 flex items-center justify-between w-[90vw] max-w-3xl border border-gray-200">
-      {/* Navigation Container */}
-      <div className="flex w-full items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <Code className="h-8 w-8 text-blue-600" />
-            <span className="font-bold text-xl text-gray-800">Rorisang Petja</span>
+    <header
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+        scrolled || open
+          ? 'bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-sm'
+          : 'bg-transparent'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 md:h-20">
+
+          {/* Logo */}
+          <Link
+            to="/"
+            className="flex items-center gap-3 group"
+            aria-label="Rorisang Petja — home"
+          >
+            <div className="w-9 h-9 rounded-xl bg-g-blue flex items-center justify-center text-white text-xs font-bold shrink-0 shadow-sm">
+              RP
+            </div>
+            <span className="hidden sm:block font-semibold text-sm text-gray-900 dark:text-white group-hover:text-g-blue dark:group-hover:text-blue-400 transition-colors">
+              Rorisang Petja
+            </span>
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-6">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  isActive(item.path)
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-100'
-                }`}
+          {/* Desktop links */}
+          <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
+            {NAV_LINKS.map(({ label, id }) => (
+              <button
+                key={id}
+                onClick={() => goToSection(id)}
+                className="px-4 py-2 rounded-full text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
               >
-                {item.label}
-              </Link>
+                {label}
+              </button>
             ))}
-          </div>
+          </nav>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
+          {/* Right controls */}
+          <div className="flex items-center gap-1.5">
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none"
+              onClick={toggleDark}
+              aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="w-9 h-9 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+
+            <button
+              onClick={() => setOpen(!open)}
+              aria-label="Toggle menu"
+              aria-expanded={open}
+              className="md:hidden w-9 h-9 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
+            >
+              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Menu - Floating Dropdown */}
-        {isOpen && (
-          <div className="md:hidden absolute top-16 left-1/2 transform -translate-x-1/2 w-[90vw] max-w-3xl bg-white rounded-2xl shadow-2xl border border-gray-200 z-50">
-            <div className="px-4 py-4 space-y-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`block px-4 py-2 rounded-full text-base font-medium transition-colors ${
-                    isActive(item.path)
-                      ? 'bg-blue-600 text-white shadow-md'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-100'
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-      </nav>
+      {/* Mobile menu */}
+      {open && (
+        <div className="md:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950">
+          <nav className="max-w-7xl mx-auto px-4 py-3 space-y-0.5" aria-label="Mobile navigation">
+            {NAV_LINKS.map(({ label, id }) => (
+              <button
+                key={id}
+                onClick={() => goToSection(id)}
+                className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-colors"
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
+        </div>
+      )}
+    </header>
   );
 };
 
